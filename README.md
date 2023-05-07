@@ -5,7 +5,7 @@ Manage swarming hypercores by keeping track of when to start and stop swarming t
 For example, requesting a hypercore twice and unrequesting it once will mean it remains requested. Likewise, requesting and serving a hypercore and later unrequesting it will mean it remains served.
 
 ## Install
-npm i swarm-manager
+`npm i swarm-manager`
 
 ## API
 
