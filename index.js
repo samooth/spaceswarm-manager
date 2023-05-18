@@ -2,23 +2,11 @@ const { asBuffer, asHex } = require('hexkey-utils')
 const { EventEmitter } = require('events')
 
 class Manager extends EventEmitter {
-  constructor (swarm, corestore) {
+  constructor (swarm) {
     super()
     this.swarm = swarm
-    this.store = corestore
     this._servedCounters = new Map()
     this._replicatedCounters = new Map()
-    this.setupReplication()
-  }
-
-  setupReplication () {
-    this.swarm.on('connection', (socket) => {
-      this.store.replicate(socket)
-      // Note: socket errors happen frequently (when the other
-      // side unexpectedly closes the socket)
-      socket.on('error', (err) => { this.emit('socket-error', err) })
-    })
-    // Note: we want to crash on swarm errors, so not listening on those
   }
 
   serve (discoveryKey) {

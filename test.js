@@ -4,6 +4,7 @@ const Corestore = require('corestore')
 const createTestnet = require('@hyperswarm/testnet')
 const Hyperswarm = require('hyperswarm')
 const b4a = require('b4a')
+const safetyCatch = require('safety-catch')
 
 const Manager = require('.')
 
@@ -11,12 +12,12 @@ const ENTRY = 'Core entry'
 const OPTS = { timeout: 50, valueEncoding: 'utf-8' }
 
 test('can serve and request core', async t => {
-  const { manager, manager2, core } = await setup(t)
+  const { manager, manager2, store2, core } = await setup(t)
 
   manager.serve(core.discoveryKey)
   await manager.swarm.flush()
 
-  const clientCore = manager2.store.get(core.key)
+  const clientCore = store2.get(core.key)
   await clientCore.ready()
   manager2.request(clientCore.discoveryKey)
 
@@ -40,9 +41,9 @@ test('properties', async t => {
 })
 
 test('requested core not announced', async t => {
-  const { manager, manager2, core } = await setup(t)
+  const { manager, manager2, store2, core } = await setup(t)
 
-  const clientCore = manager2.store.get(core.key)
+  const clientCore = store2.get(core.key)
   await clientCore.ready()
 
   // Not announced on request
@@ -55,9 +56,9 @@ test('requested core not announced', async t => {
 })
 
 test('request flow', async t => {
-  const { manager, manager2, core } = await setup(t)
+  const { manager, manager2, store2, core } = await setup(t)
 
-  const clientCore = manager2.store.get(core.key)
+  const clientCore = store2.get(core.key)
   await clientCore.ready()
   const key = clientCore.discoveryKey
 
@@ -96,9 +97,9 @@ test('throws when unserving/unrequesting non-served key', async t => {
 })
 
 test('chaos 1', async t => {
-  const { manager, manager2, core } = await setup(t)
+  const { manager, manager2, store2, core } = await setup(t)
 
-  const clientCore = manager2.store.get(core.key)
+  const clientCore = store2.get(core.key)
   await clientCore.ready()
   const key = clientCore.discoveryKey
 
@@ -120,9 +121,9 @@ test('chaos 1', async t => {
 })
 
 test('chaos 2', async t => {
-  const { manager, manager2, core } = await setup(t)
+  const { manager, manager2, store2, core } = await setup(t)
 
-  const clientCore = manager2.store.get(core.key)
+  const clientCore = store2.get(core.key)
   await clientCore.ready()
   const key = clientCore.discoveryKey
 
@@ -148,20 +149,33 @@ test('chaos 2', async t => {
   t.alike(manager2.requestedKeys, [])
 })
 
+function setupSwarm (store, opts) {
+  const swarm = new Hyperswarm(opts)
+
+  swarm.on('connection', (socket) => {
+    store.replicate(socket)
+    // Note: socket errors happen frequently (when the other
+    // side unexpectedly closes the socket)
+    socket.on('error', safetyCatch)
+  })
+
+  return swarm
+}
+
 async function setup (t) {
   const store = new Corestore(ram)
   const store2 = new Corestore(ram)
 
   const testnet = await createTestnet(3)
   const bootstrap = testnet.bootstrap
-  const swarm = new Hyperswarm({ bootstrap })
-  const swarm2 = new Hyperswarm({ bootstrap })
+  const swarm = setupSwarm(store, { bootstrap })
+  const swarm2 = setupSwarm(store2, { bootstrap })
 
   const core = store.get({ name: 'core' })
   await core.append('Core entry')
 
-  const manager = new Manager(swarm, store)
-  const manager2 = new Manager(swarm2, store2)
+  const manager = new Manager(swarm)
+  const manager2 = new Manager(swarm2)
   t.teardown(async () => {
     await Promise.all([manager.close(), manager2.close()])
     await Promise.all([store.close(), store2.close(), testnet.destroy()])
@@ -169,6 +183,8 @@ async function setup (t) {
   return {
     manager,
     manager2,
+    store,
+    store2,
     core
   }
 }
