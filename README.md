@@ -9,10 +9,12 @@ For example, requesting a hypercore twice and unrequesting it once will mean it 
 
 ## API
 
-#### `const swarmManager = new SwarmManager(swarm, corestore)`
-Create a new swarm manager and sets up replication at the corestore level.
+#### `const swarmManager = new SwarmManager(swarm)`
+Create a new swarm manager.
 
-Note: the Hyperswarm's lifecycle is managed by the swarm manager, but the corestore's is not.
+Note: the Hyperswarm's lifecycle is managed by the swarm manager.
+
+Note: this module is not concerned with setting up replication. You will need to set up an `on('connection')` handler on the passed-in swarm
 
 ### Properties
 
@@ -53,4 +55,4 @@ If it is now 0, the core is no longer served.
 Note that even when no longer served, the core will remain requested if its request counter is higher than 0.
 
 #### `await swarmManager.close()`
-Destroys the swarm and cleans up (does not close the corestore).
+Destroys the swarm and cleans up.
