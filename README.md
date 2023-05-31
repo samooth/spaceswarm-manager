@@ -7,6 +7,10 @@ For example, requesting a hypercore twice and unrequesting it once will mean it 
 ## Install
 `npm i swarm-manager`
 
+## Usage
+
+See [example](example.mjs)
+
 ## API
 
 #### `const swarmManager = new SwarmManager(swarm)`
