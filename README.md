@@ -39,7 +39,7 @@ Note: the discovery key can be in any format (buffer, hex or z32).
 Increment the serve counter for the given discovery key.
 If it was 0 before, the core is now served.
 
-#### `swarmManager.requestCore(discoveryKey)`
+#### `swarmManager.request(discoveryKey)`
 Increment the request counter for the given discovery key.
 
 If it was 0 before, the core is now requested.
@@ -47,7 +47,7 @@ If it was 0 before, the core is now requested.
 Note: if the core was already being served, nothing changes
 (serving already implies it is requested)
 
-#### `await swarmManager.unrequestCore(discoveryKey)`
+#### `await swarmManager.unrequest(discoveryKey)`
 Decrement the request counter for the given discovery key.
 If it is now 0 and the serve counter is 0 too, then the core will no longer be requested.
 
