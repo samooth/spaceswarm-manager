@@ -1,12 +1,20 @@
 const { asBuffer, asHex } = require('hexkey-utils')
-const { EventEmitter } = require('events')
+const ReadyResource = require('ready-resource')
 
-class Manager extends EventEmitter {
+class Manager extends ReadyResource {
   constructor (swarm) {
     super()
     this.swarm = swarm
     this._servedCounters = new Map()
     this._replicatedCounters = new Map()
+
+    // No open-logic, so we auto enter the ready-state,
+    // to ensure close-logic is always run on destroy
+    this.ready().catch(noop)
+  }
+
+  async _close () {
+    await this.swarm.destroy()
   }
 
   serve (discoveryKey) {
@@ -88,10 +96,8 @@ class Manager extends EventEmitter {
   get keys () {
     return Array.from(this.swarm.topics()).map(t => t.topic)
   }
-
-  async close () {
-    await this.swarm.destroy()
-  }
 }
+
+function noop () {}
 
 module.exports = Manager
