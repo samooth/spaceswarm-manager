@@ -1,11 +1,11 @@
 import Corestore from 'spacecorestore'
 import ram from 'random-access-memory'
-import Hyperswarm from 'spaceswarm'
+import Spaceswarm from 'spaceswarm'
 import SwarmManager from './index.js'
 
 const store = new Corestore(ram)
 
-const swarm = new Hyperswarm()
+const swarm = new Spaceswarm()
 swarm.on('connection', (socket) => {
   store.replicate(socket)
   socket.on('error', () => {})

@@ -16,7 +16,7 @@ See [example](example.mjs)
 #### `const swarmManager = new SwarmManager(swarm)`
 Create a new swarm manager.
 
-Note: the Hyperswarm's lifecycle is managed by the swarm manager.
+Note: the Spaceswarm's lifecycle is managed by the swarm manager.
 
 Note: this module is not concerned with setting up replication. You will need to set up an `on('connection')` handler on the passed-in swarm
 

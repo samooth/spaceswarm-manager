@@ -2,7 +2,7 @@ const test = require('brittle')
 const ram = require('random-access-memory')
 const Corestore = require('spacecorestore')
 const createTestnet = require('@hyperswarm/testnet')
-const Hyperswarm = require('spaceswarm')
+const Spaceswarm = require('spaceswarm')
 const b4a = require('b4a')
 const safetyCatch = require('safety-catch')
 
@@ -150,7 +150,7 @@ test('chaos 2', async t => {
 })
 
 function setupSwarm (store, opts) {
-  const swarm = new Hyperswarm(opts)
+  const swarm = new Spaceswarm(opts)
 
   swarm.on('connection', (socket) => {
     store.replicate(socket)

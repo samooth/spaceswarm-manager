@@ -11,8 +11,8 @@
     "url": "git+ssh://git@github.com/samooth/space-swarm-manager.git"
   },
   "keywords": [
-    "Hypercore",
-    "Hyperswarm"
+    "Spacecore",
+    "Spaceswarm"
   ],
   "author": "H. Degroote",
   "contributors": [
