@@ -1,8 +1,8 @@
 const test = require('brittle')
 const ram = require('random-access-memory')
-const Corestore = require('corestore')
+const Corestore = require('spacecorestore')
 const createTestnet = require('@hyperswarm/testnet')
-const Hyperswarm = require('hyperswarm')
+const Hyperswarm = require('spaceswarm')
 const b4a = require('b4a')
 const safetyCatch = require('safety-catch')
 

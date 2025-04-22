@@ -1,37 +1,44 @@
 {
-  "name": "swarm-manager",
-  "version": "1.0.2",
-  "description": "Manage swarming hypercores",
+  "name": "spaceswarm-manager",
+  "version": "0.0.1",
+  "description": "Manage swarming spacecores",
   "main": "index.js",
   "scripts": {
     "test": "standard && npx brittle test.js --coverage"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/HDegroote/swarm-manager.git"
+    "url": "git+ssh://git@github.com/samooth/space-swarm-manager.git"
   },
   "keywords": [
     "Hypercore",
     "Hyperswarm"
   ],
   "author": "H. Degroote",
+  "contributors": [
+    {
+      "name": "Tomás Díaz",
+      "email": "tomas@bsv.direct",
+      "url": "https://github.com/samooth"
+    }
+  ],  
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://gitlab.com/HDegroote/swarm-manager/issues"
+    "url": "https://github.com/samooth/space-swarm-manager/issues"
   },
-  "homepage": "https://gitlab.com/HDegroote/swarm-manager#readme",
+  "homepage": "https://github.com/samooth/space-swarm-manager#readme",
   "dependencies": {
     "hexkey-utils": "^1.2.1",
     "ready-resource": "^1.0.3"
   },
   "devDependencies": {
-    "@hyperswarm/testnet": "^3.1.2",
+    "spaceswarm-testnet": "latest",
     "b4a": "^1.6.4",
     "brittle": "^3.2.1",
-    "corestore": "^6.5.2",
-    "hyperswarm": "^4.4.1",
+    "spacecorestore": "latest",
+    "spaceswarm": "latest",
     "random-access-memory": "^6.2.0",
     "safety-catch": "^1.0.2",
-    "standard": "^17.0.0"
+    "standard": "^17.1.2"
   }
 }

@@ -1,6 +1,6 @@
-import Corestore from 'corestore'
+import Corestore from 'spacecorestore'
 import ram from 'random-access-memory'
-import Hyperswarm from 'hyperswarm'
+import Hyperswarm from 'spaceswarm'
 import SwarmManager from './index.js'
 
 const store = new Corestore(ram)
